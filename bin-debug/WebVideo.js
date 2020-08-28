@@ -484,3 +484,4 @@ var WebVideo = (function (_super) {
     return WebVideo;
 }(egret.DisplayObject));
 __reflect(WebVideo.prototype, "WebVideo", ["egret.Video"]);
+//# sourceMappingURL=WebVideo.js.map

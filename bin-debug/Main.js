@@ -44,6 +44,7 @@ var Main = (function (_super) {
     }
     Main.prototype.createChildren = function () {
         _super.prototype.createChildren.call(this);
+        this.top = this.left = this.right = this.bottom = 0;
         //inject the custom material parser
         //注入自定义的素材解析器
         var assetAdapter = new AssetAdapter();
@@ -135,12 +136,14 @@ var Main = (function (_super) {
      */
     Main.prototype.startCreateScene = function () {
         var _this = this;
-        var sky = this.createBitmapByName("bg_jpg");
+        var sky = new eui.Image("bg_jpg");
+        // let sky: egret.Bitmap = this.createBitmapByName("bg_jpg");
         this.addChild(sky);
+        sky.left = sky.right = sky.top = sky.bottom = 0;
         var stageW = this.stage.stageWidth;
         var stageH = this.stage.stageHeight;
-        sky.width = stageW;
-        sky.height = stageH;
+        // sky.width = stageW;
+        // sky.height = stageH;
         var topMask = new egret.Shape();
         topMask.graphics.beginFill(0x000000, 0.5);
         topMask.graphics.drawRect(0, 0, stageW, 172);
@@ -180,9 +183,13 @@ var Main = (function (_super) {
             preX = e.stageX;
             preY = e.stageY;
             _this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, onToucheMove, _this);
-            _this.stage.addEventListener(egret.TouchEvent.TOUCH_END, function (e) {
-                _this.stage.removeEventListener(egret.TouchEvent.TOUCH_MOVE, onToucheMove, _this);
-            }, _this);
+        }, this);
+        this.stage.addEventListener(egret.TouchEvent.TOUCH_END, function (e) {
+            _this.stage.removeEventListener(egret.TouchEvent.TOUCH_MOVE, onToucheMove, _this);
+        }, this);
+        var count = 1;
+        video.addEventListener(egret.Event.ENDED, function (e) {
+            console.log(count++);
         }, this);
         var icon = this.createBitmapByName("egret_icon_png");
         this.addChild(icon);
@@ -284,3 +291,4 @@ var Main = (function (_super) {
     return Main;
 }(eui.UILayer));
 __reflect(Main.prototype, "Main");
+//# sourceMappingURL=Main.js.map

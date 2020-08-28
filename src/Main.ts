@@ -35,6 +35,7 @@ class Main extends eui.UILayer {
     private loadingView: LoadingUI;
     protected createChildren(): void {
         super.createChildren();
+        this.top = this.left = this.right = this.bottom = 0;
         //inject the custom material parser
         //注入自定义的素材解析器
         let assetAdapter = new AssetAdapter();
@@ -129,12 +130,15 @@ class Main extends eui.UILayer {
      * Create scene interface
      */
     protected startCreateScene(): void {
-        let sky: egret.Bitmap = this.createBitmapByName("bg_jpg");
+        let sky = new eui.Image("bg_jpg");
+        // let sky: egret.Bitmap = this.createBitmapByName("bg_jpg");
         this.addChild(sky);
+        sky.left = sky.right = sky.top = sky.bottom = 0;
+
         let stageW: number = this.stage.stageWidth;
         let stageH: number = this.stage.stageHeight;
-        sky.width = stageW;
-        sky.height = stageH;
+        // sky.width = stageW;
+        // sky.height = stageH;
 
         let topMask = new egret.Shape();
         topMask.graphics.beginFill(0x000000, 0.5);
@@ -182,14 +186,16 @@ class Main extends eui.UILayer {
             preX = e.stageX;
             preY = e.stageY;
             this.stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, onToucheMove, this);
-            this.stage.addEventListener(egret.TouchEvent.TOUCH_END, (e: egret.TouchEvent) => {
-                this.stage.removeEventListener(egret.TouchEvent.TOUCH_MOVE, onToucheMove, this);
-            }, this);
         }, this);
 
+        this.stage.addEventListener(egret.TouchEvent.TOUCH_END, (e: egret.TouchEvent) => {
+            this.stage.removeEventListener(egret.TouchEvent.TOUCH_MOVE, onToucheMove, this);
+        }, this);
 
-
-
+        let count = 1;
+        video.addEventListener(egret.Event.ENDED, (e) => {
+            console.log(count++);
+        }, this);
 
         let icon: egret.Bitmap = this.createBitmapByName("egret_icon_png");
         this.addChild(icon);
